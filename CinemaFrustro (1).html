@@ -1,0 +1,1554 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CinemaFrustro™ — The World's Most Award-Winning Booking Experience</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0f;
+    --surface: #111118;
+    --card: #16161f;
+    --border: #2a2a3a;
+    --gold: #f5c842;
+    --gold2: #e8a800;
+    --red: #e63946;
+    --green: #2ec970;
+    --blue: #4cc9f0;
+    --muted: #5a5a7a;
+    --text: #e8e8f0;
+    --text2: #9090b0;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  /* PAGES */
+  .page { display:none; min-height:100vh; }
+  .page.active { display:block; }
+
+  /* NAV */
+  nav {
+    background: rgba(10,10,15,0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 40px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+  }
+  .logo {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 28px;
+    color: var(--gold);
+    letter-spacing: 2px;
+    cursor: pointer;
+  }
+  .logo span { color: var(--red); }
+  nav .tagline {
+    font-size: 11px;
+    color: var(--muted);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .nav-right { display:flex; gap:20px; align-items:center; }
+  .nav-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    transition: all 0.2s;
+  }
+  .nav-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* HERO */
+  .hero {
+    min-height: calc(100vh - 64px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 30%, rgba(245,200,66,0.07) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 50% at 80% 80%, rgba(230,57,70,0.06) 0%, transparent 60%);
+  }
+  .hero-badge {
+    background: var(--red);
+    color: white;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    display: inline-block;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.7} }
+  .hero h1 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: clamp(52px, 8vw, 110px);
+    line-height: 0.95;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+  }
+  .hero h1 .line2 { color: var(--gold); }
+  .hero-sub {
+    font-size: 18px;
+    color: var(--text2);
+    max-width: 560px;
+    line-height: 1.6;
+    margin-bottom: 40px;
+  }
+  .hero-sub em { color: var(--gold); font-style: normal; }
+  .hero-awards {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 48px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .award-badge {
+    background: var(--card);
+    border: 1px solid var(--border);
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .award-badge .award-icon { color: var(--gold); margin-right: 6px; }
+  .cta-btn {
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 18px 48px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .cta-btn:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 8px 30px rgba(245,200,66,0.3); }
+  .hero-warning {
+    margin-top: 24px;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: 'Courier Prime', monospace;
+  }
+
+  /* FEATURES SECTION */
+  .features {
+    padding: 80px 40px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 48px;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+  }
+  .section-sub { color: var(--text2); margin-bottom: 48px; font-size: 15px; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    transition: border-color 0.2s;
+  }
+  .feature-card:hover { border-color: var(--gold); }
+  .feature-icon { font-size: 32px; margin-bottom: 14px; }
+  .feature-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .feature-card .sarcasm { color: var(--gold); font-size: 11px; margin-top: 10px; font-style: italic; }
+
+  /* MOVIES PAGE */
+  .page-header {
+    padding: 48px 40px 32px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .page-header h2 { font-family: 'Bebas Neue', cursive; font-size: 48px; letter-spacing: 2px; }
+  .page-header p { color: var(--text2); margin-top: 8px; font-size: 14px; }
+  .movies-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    padding: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .movie-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+  }
+  .movie-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+  .movie-poster {
+    width: 100%;
+    aspect-ratio: 2/3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 72px;
+    position: relative;
+    overflow: hidden;
+  }
+  .movie-poster::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60%;
+    background: linear-gradient(transparent, var(--card));
+  }
+  .movie-info { padding: 16px; }
+  .movie-title { font-weight: 700; font-size: 14px; margin-bottom: 6px; }
+  .movie-meta { font-size: 12px; color: var(--text2); margin-bottom: 10px; }
+  .movie-rating { display: flex; align-items: center; gap: 6px; font-size: 12px; }
+  .stars { color: var(--gold); }
+  .movie-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 13px;
+    margin-top: 12px;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 1px;
+  }
+  .showtime-notice {
+    background: rgba(230,57,70,0.1);
+    border: 1px solid rgba(230,57,70,0.3);
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin: 0 40px 20px;
+    font-size: 13px;
+    color: var(--red);
+  }
+
+  /* SHOWTIMES */
+  .showtimes-container {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin: 0 40px 20px;
+  }
+  .showtimes-container h3 { font-family: 'Bebas Neue', cursive; font-size: 22px; letter-spacing: 1px; margin-bottom: 16px; }
+  .showtime-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+  .showtime-slot {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+    min-width: 120px;
+  }
+  .showtime-slot:hover { border-color: var(--gold); }
+  .showtime-slot.selected { border-color: var(--gold); background: rgba(245,200,66,0.1); }
+  .binary-time { font-family: 'Courier Prime', monospace; font-size: 14px; color: var(--gold); font-weight: 700; }
+  .binary-hint { font-size: 10px; color: var(--muted); margin-top: 4px; }
+
+  /* SEATS PAGE */
+  .seats-container { padding: 40px; max-width: 900px; margin: 0 auto; }
+  .seat-map-wrapper {
+    position: relative;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 32px;
+    margin-bottom: 32px;
+  }
+  .screen-label {
+    text-align: center;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 4px;
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 24px;
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+  }
+  .seat-map { transform: rotate(180deg); }
+  .seat-row { display: flex; gap: 6px; justify-content: center; margin-bottom: 6px; align-items: center; }
+  .row-label {
+    font-family: 'Courier Prime', monospace;
+    font-size: 11px;
+    color: var(--muted);
+    width: 20px;
+    text-align: center;
+  }
+  .seat {
+    width: 32px;
+    height: 28px;
+    border-radius: 6px 6px 2px 2px;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    transition: all 0.15s;
+    background: var(--surface);
+    position: relative;
+  }
+  .seat:hover { border-color: var(--gold); background: rgba(245,200,66,0.15); }
+  .seat.occupied { background: var(--border); cursor: not-allowed; opacity: 0.5; }
+  .seat.selected { background: var(--gold); border-color: var(--gold2); }
+  .seat.pillar { background: rgba(230,57,70,0.2); border-color: var(--red); }
+  .seat.pillar::after {
+    content: '🏛';
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 14px;
+  }
+  .upside-down-note {
+    background: rgba(245,200,66,0.1);
+    border: 1px solid rgba(245,200,66,0.3);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: var(--gold);
+  }
+  .best-seats-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .best-seats-section h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 24px;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+    color: var(--gold);
+  }
+  .best-seats-section .subtitle { font-size: 12px; color: var(--muted); margin-bottom: 16px; }
+  .recommended-seat {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    margin-bottom: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .recommended-seat:hover { border-color: var(--gold); }
+  .rec-seat-icon { font-size: 24px; }
+  .rec-seat-name { font-weight: 700; font-size: 14px; }
+  .rec-seat-desc { font-size: 12px; color: var(--text2); margin-top: 2px; }
+  .rec-seat-badge {
+    margin-left: auto;
+    background: var(--red);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  .proceed-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+  }
+  .proceed-btn:hover { background: var(--gold2); }
+
+  /* PRICING PAGE */
+  .pricing-container { padding: 40px; max-width: 800px; margin: 0 auto; }
+  .price-summary {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 24px;
+  }
+  .price-header {
+    background: var(--surface);
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .price-header h3 { font-family: 'Bebas Neue', cursive; font-size: 24px; letter-spacing: 1px; }
+  .price-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 13px;
+  }
+  .price-row:hover { background: rgba(255,255,255,0.02); }
+  .price-row .fee-name { color: var(--text2); flex: 1; }
+  .price-row .fee-amount { color: var(--text); font-family: 'Courier Prime', monospace; font-weight: 700; white-space: nowrap; }
+  .price-row.subtotal { background: rgba(245,200,66,0.05); }
+  .price-row.total {
+    background: rgba(245,200,66,0.1);
+    padding: 20px 24px;
+    font-size: 18px;
+    font-weight: 700;
+    border-top: 2px solid var(--gold);
+  }
+  .price-row.total .fee-name { color: var(--gold); }
+  .price-row.total .fee-amount { color: var(--gold); font-size: 22px; }
+  .base-price { background: rgba(46,201,112,0.08); }
+  .fee-number {
+    width: 22px;
+    height: 22px;
+    background: var(--red);
+    border-radius: 50%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    margin-right: 8px;
+    flex-shrink: 0;
+  }
+  .loading-bar-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .loading-bar-section p { font-size: 13px; color: var(--text2); margin-bottom: 10px; }
+  .loading-bar { height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+  .loading-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--red));
+    border-radius: 4px;
+    animation: loadingAnim 4s ease-in-out infinite;
+  }
+  @keyframes loadingAnim { 0%{width:0%} 45%{width:85%} 50%{width:85%} 55%{width:82%} 100%{width:85%} }
+
+  /* CHECKOUT STEPS */
+  .checkout-steps {
+    display: flex;
+    gap: 0;
+    margin-bottom: 32px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+  }
+  .step-item {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-shrink: 0;
+  }
+  .step-circle {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+  .step-circle.done { background: var(--green); color: #000; }
+  .step-circle.active { background: var(--gold); color: #000; }
+  .step-label { font-size: 10px; color: var(--muted); margin-top: 6px; text-align: center; width: 60px; }
+  .step-connector { width: 20px; height: 2px; background: var(--border); flex-shrink: 0; }
+  .step-wrapper { display: flex; flex-direction: column; align-items: center; }
+  .checkout-form {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    margin-bottom: 24px;
+  }
+  .checkout-form h3 {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 22px;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+  }
+  .form-field { margin-bottom: 16px; }
+  .form-field label { display: block; font-size: 12px; color: var(--text2); margin-bottom: 6px; letter-spacing: 1px; text-transform: uppercase; }
+  .form-field input, .form-field select {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 12px 14px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'DM Sans', sans-serif;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .form-field input:focus, .form-field select:focus { border-color: var(--gold); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .confirm-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 16px;
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    transition: all 0.2s;
+  }
+  .confirm-btn:hover { background: var(--gold2); }
+
+  /* CONFIRMATION PAGE */
+  .confirmation-container {
+    padding: 80px 40px;
+    max-width: 600px;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .confirm-icon { font-size: 80px; margin-bottom: 24px; }
+  .confirm-title {
+    font-family: 'Bebas Neue', cursive;
+    font-size: 52px;
+    letter-spacing: 3px;
+    margin-bottom: 16px;
+    color: var(--gold);
+  }
+  .confirm-text { font-size: 16px; color: var(--text2); line-height: 1.7; margin-bottom: 32px; }
+  .confirm-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 28px;
+    text-align: left;
+    margin-bottom: 24px;
+  }
+  .confirm-box h4 { font-family: 'Bebas Neue', cursive; font-size: 18px; letter-spacing: 1px; margin-bottom: 16px; color: var(--text2); }
+  .confirm-detail { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 14px; }
+  .confirm-detail:last-child { border-bottom: none; }
+  .confirm-detail .label { color: var(--text2); }
+  .confirm-detail .value { font-weight: 700; }
+  .email-warning {
+    background: rgba(230,57,70,0.1);
+    border: 1px solid rgba(230,57,70,0.3);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 24px;
+  }
+  .email-warning .warning-title { color: var(--red); font-weight: 700; font-size: 15px; margin-bottom: 8px; }
+  .email-warning p { font-size: 13px; color: var(--text2); line-height: 1.6; }
+  .rating-section {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .rating-section h4 { font-size: 15px; font-weight: 700; margin-bottom: 12px; }
+  .stars-rating { font-size: 32px; cursor: pointer; letter-spacing: 4px; }
+
+  /* POPUP OVERLAY */
+  .popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(4px);
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .popup-overlay.visible { opacity: 1; pointer-events: all; }
+  .popup-box {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 36px;
+    max-width: 440px;
+    width: 100%;
+    position: relative;
+    transform: scale(0.9);
+    transition: transform 0.3s;
+  }
+  .popup-overlay.visible .popup-box { transform: scale(1); }
+  .popup-box h3 { font-family: 'Bebas Neue', cursive; font-size: 28px; letter-spacing: 2px; margin-bottom: 12px; }
+  .popup-box p { font-size: 14px; color: var(--text2); line-height: 1.6; margin-bottom: 20px; }
+  .popup-btn {
+    width: 100%;
+    background: var(--gold);
+    color: #000;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+    cursor: pointer;
+    font-family: 'Bebas Neue', cursive;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+  }
+  .popup-btn.secondary {
+    background: var(--surface);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    letter-spacing: 0;
+  }
+  .progress-bar-fake {
+    height: 6px;
+    background: var(--border);
+    border-radius: 3px;
+    margin-bottom: 8px;
+    overflow: hidden;
+  }
+  .progress-bar-fake .fill {
+    height: 100%;
+    background: var(--gold);
+    width: 0%;
+    border-radius: 3px;
+    animation: fakeProgress 3s ease forwards;
+  }
+  @keyframes fakeProgress { 0%{width:0%} 40%{width:70%} 70%{width:72%} 90%{width:71%} 100%{width:71%} }
+  .progress-label { font-size: 11px; color: var(--muted); font-family: 'Courier Prime', monospace; }
+  .checkout-step-content { display: none; }
+  .checkout-step-content.active { display: block; }
+
+  /* SCROLL CTA in movies */
+  .scroll-hint { text-align: center; padding: 20px; color: var(--muted); font-size: 13px; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 20px;
+    font-size: 13px;
+    z-index: 3000;
+    transform: translateX(200%);
+    transition: transform 0.3s;
+    max-width: 300px;
+  }
+  .toast.show { transform: translateX(0); }
+  .toast-title { font-weight: 700; margin-bottom: 4px; }
+  .toast-body { color: var(--text2); }
+
+  /* TICKER */
+  .ticker {
+    background: var(--red);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 8px 0;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 25s linear infinite;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Courier Prime', monospace;
+  }
+  @keyframes ticker { from{transform:translateX(100vw)} to{transform:translateX(-100%)} }
+
+  /* FOOTER */
+  footer {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    padding: 40px;
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  footer p { margin-bottom: 6px; }
+
+  /* Utility */
+  .text-gold { color: var(--gold); }
+  .text-red { color: var(--red); }
+  .text-green { color: var(--green); }
+  .text-muted { color: var(--muted); }
+  .mono { font-family: 'Courier Prime', monospace; }
+  .small { font-size: 12px; }
+  .mt8 { margin-top: 8px; }
+  .mb16 { margin-bottom: 16px; }
+  .bold { font-weight: 700; }
+
+  /* Back btn */
+  .back-btn {
+    background: none;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    padding: 8px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    margin: 20px 40px 0;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+  }
+  .back-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+  /* Scroll */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <div class="toast-title" id="toast-title"></div>
+  <div class="toast-body" id="toast-body"></div>
+</div>
+
+<!-- POPUP -->
+<div class="popup-overlay" id="popup">
+  <div class="popup-box" id="popup-box">
+    <!-- content injected by JS -->
+  </div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div>
+    <div class="logo" onclick="showPage('home')">Cinema<span>FRUSTRO</span>™</div>
+    <div class="tagline">Booking Misery Since 2003</div>
+  </div>
+  <div class="nav-right">
+    <button class="nav-btn" onclick="showPage('home')">Home</button>
+    <button class="nav-btn" onclick="showPage('movies')">Movies</button>
+    <button class="nav-btn" onclick="showPopup('login')">Sign In</button>
+  </div>
+</nav>
+
+<!-- TICKER -->
+<div class="ticker">
+  <span class="ticker-inner">⚠ NOTICE: Our website is currently running at peak performance — average checkout time: 47 minutes &nbsp;&nbsp;&nbsp; 🎟 All "Best Seats" are now enhanced with premium obstructions &nbsp;&nbsp;&nbsp; 💳 We now accept 847 forms of payment (none of them convenient) &nbsp;&nbsp;&nbsp; 📧 Confirmation emails delivered within 3-5 business screenings &nbsp;&nbsp;&nbsp; 🏆 Voted "Most Uniquely Challenging" booking experience 9 years running &nbsp;&nbsp;&nbsp;</span>
+</div>
+
+<!-- ===== PAGE: HOME ===== -->
+<div class="page active" id="page-home">
+  <div class="hero">
+    <div class="hero-badge">⚠ Proudly Certified Infuriating</div>
+    <h1>
+      BOOK YOUR<br>
+      <span class="line2">DISAPPOINTMENT</span><br>
+      ONLINE
+    </h1>
+    <p class="hero-sub">
+      The cinematic journey begins <em>before</em> the movie — with our legendary, <em>award-winning</em> booking experience that has left millions questioning their life choices.
+    </p>
+    <div class="hero-awards">
+      <div class="award-badge"><span class="award-icon">🏆</span> Worst UX — Webby Awards 2024</div>
+      <div class="award-badge"><span class="award-icon">⭐</span> 1.2 Stars — App Store</div>
+      <div class="award-badge"><span class="award-icon">🔥</span> 9x "Please Just Let Me Pay"</div>
+      <div class="award-badge"><span class="award-icon">💀</span> 47 Fees &amp; Counting</div>
+    </div>
+    <button class="cta-btn" onclick="showPage('movies'); showToast('Welcome!', 'Loading your misery... please hold.')">
+      BEGIN YOUR ORDEAL →
+    </button>
+    <p class="hero-warning">* By clicking above you agree to our 847-page Terms of Confusion and consent to emotional distress.</p>
+  </div>
+
+  <div class="features">
+    <div class="section-title">WHY CHOOSE <span class="text-gold">US?</span></div>
+    <p class="section-sub">There are exactly zero good reasons. Here they are anyway:</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🔢</div>
+        <h3>Binary Showtimes</h3>
+        <p>Because reading "7:30 PM" is too easy. We display all showtimes in binary so you can feel like a hacker while buying popcorn.</p>
+        <p class="sarcasm">"I genuinely couldn't figure out when my movie was" — actual user review</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🙃</div>
+        <h3>Upside-Down Seat Map</h3>
+        <p>Our revolutionary inverted seating chart ensures that the best seats are always at the bottom of the screen. Which is now the top. Or the bottom. We're not sure anymore.</p>
+        <p class="sarcasm">"I sat in the lobby by accident" — Marcus T., Glasgow</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏛️</div>
+        <h3>Premium Pillar Views</h3>
+        <p>Why see the whole movie when you can see 60% of it? Our "Best Seats" algorithm specifically recommends seating behind structural columns for that authentic "you should've arrived earlier" experience.</p>
+        <p class="sarcasm">"The pillar had better screen time than the villain" — Priya S.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💸</div>
+        <h3>47 Convenience Fees</h3>
+        <p>Your £12 ticket will bloom into a magnificent £89.47 bouquet of fees. Each one carefully named to sound official: "Oxygen Surcharge," "Pixel Maintenance Tax," and our classic "Fee for Displaying This Fee."</p>
+        <p class="sarcasm">"I cried. I actually cried." — David K., London</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏳</div>
+        <h3>17-Step Checkout</h3>
+        <p>We've streamlined our checkout from 23 steps down to a lean 17. Steps include confirming your confirmation, verifying your verification, and a brief personality quiz about your cinema snack preferences.</p>
+        <p class="sarcasm">"I started the checkout process for Oppenheimer and finished during its sequel" — anon</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📧</div>
+        <h3>Post-Movie Confirmation</h3>
+        <p>Our server hamsters work tirelessly to deliver your booking confirmation email approximately 2–6 hours after your film ends. Print-at-home tickets arrive via post.</p>
+        <p class="sarcasm">"The email arrived. I was already home. The movie was fine, I think." — Tomás R.</p>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>© 2025 CinemaFrustro™ Holdings Ltd. All Rights Reserved. Some rights left at the concession stand.</p>
+    <p>CinemaFrustro™ is a satirical parody. Any resemblance to real terrible booking systems is entirely intentional and deeply sympathetic.</p>
+    <p style="margin-top:12px;font-size:11px;">🍿 Popcorn sold separately. Dignity also sold separately. Neither are available at this time.</p>
+  </footer>
+</div>
+
+<!-- ===== PAGE: MOVIES ===== -->
+<div class="page" id="page-movies">
+  <div class="page-header">
+    <h2>NOW SHOWING — <span class="text-gold">PROBABLY</span></h2>
+    <p>Listings are updated every 72 hours. Some of these movies may have already left theatres. We have no way of knowing.</p>
+  </div>
+
+  <div class="showtime-notice">
+    ⚠️ <strong>Showtimes displayed in binary.</strong> For your convenience, a binary-to-decimal conversion booklet is available at the box office for £4.99.
+  </div>
+
+  <div class="movies-grid">
+    <div class="movie-card" onclick="selectMovie('Galactic Disaster 4: Still Happening')">
+      <div class="movie-poster" style="background: linear-gradient(135deg,#1a0533,#3d1a78);">🚀</div>
+      <div class="movie-info">
+        <div class="movie-title">Galactic Disaster 4: Still Happening</div>
+        <div class="movie-meta">2h 47m &nbsp;·&nbsp; Sci-Fi / Chaos &nbsp;·&nbsp; 15</div>
+        <div class="movie-rating"><span class="stars">★★★</span><span style="color:var(--muted)">★★</span> <span>3.1</span></div>
+        <button class="movie-btn">BOOK NOW</button>
+      </div>
+    </div>
+    <div class="movie-card" onclick="selectMovie('The Quiet Place 9: Sound Advice')">
+      <div class="movie-poster" style="background: linear-gradient(135deg,#0d2618,#1a5c38);">🤫</div>
+      <div class="movie-info">
+        <div class="movie-title">The Quiet Place 9: Sound Advice</div>
+        <div class="movie-meta">1h 52m &nbsp;·&nbsp; Horror / Shushing &nbsp;·&nbsp; 12A</div>
+        <div class="movie-rating"><span class="stars">★★★★</span><span style="color:var(--muted)">★</span> <span>4.1</span></div>
+        <button class="movie-btn">BOOK NOW</button>
+      </div>
+    </div>
+    <div class="movie-card" onclick="selectMovie('Fast & Furious: Parking Lot')">
+      <div class="movie-poster" style="background: linear-gradient(135deg,#2d0a00,#7a1a00);">🚗</div>
+      <div class="movie-info">
+        <div class="movie-title">Fast &amp; Furious: Parking Lot</div>
+        <div class="movie-meta">2h 15m &nbsp;·&nbsp; Action / Combustion &nbsp;·&nbsp; 12A</div>
+        <div class="movie-rating"><span class="stars">★★</span><span style="color:var(--muted)">★★★</span> <span>2.4</span></div>
+        <button class="movie-btn">BOOK NOW</button>
+      </div>
+    </div>
+    <div class="movie-card" onclick="selectMovie('Inception 2: Still Dreaming')">
+      <div class="movie-poster" style="background: linear-gradient(135deg,#0a1a2d,#1a3a5c);">🌀</div>
+      <div class="movie-info">
+        <div class="movie-title">Inception 2: Still Dreaming</div>
+        <div class="movie-meta">3h 04m &nbsp;·&nbsp; Thriller / Confusion &nbsp;·&nbsp; 12A</div>
+        <div class="movie-rating"><span class="stars">★★★★</span><span style="color:var(--muted)">★</span> <span>4.3</span></div>
+        <button class="movie-btn">BOOK NOW</button>
+      </div>
+    </div>
+    <div class="movie-card" onclick="selectMovie('Mamma Mia 4: Here We Go Again (Again)')">
+      <div class="movie-poster" style="background: linear-gradient(135deg,#2d1a00,#7a4a00);">🎵</div>
+      <div class="movie-info">
+        <div class="movie-title">Mamma Mia 4: Here We Go Again (Again)</div>
+        <div class="movie-meta">1h 48m &nbsp;·&nbsp; Musical / ABBA &nbsp;·&nbsp; PG</div>
+        <div class="movie-rating"><span class="stars">★★★★★</span> <span>5.0</span></div>
+        <button class="movie-btn">BOOK NOW</button>
+      </div>
+    </div>
+    <div class="movie-card" onclick="selectMovie('The Matrix: Rebooted Again')">
+      <div class="movie-poster" style="background: linear-gradient(135deg,#001a00,#003a00);">💊</div>
+      <div class="movie-info">
+        <div class="movie-title">The Matrix: Rebooted Again</div>
+        <div class="movie-meta">2h 38m &nbsp;·&nbsp; Sci-Fi / Philosophy &nbsp;·&nbsp; 15</div>
+        <div class="movie-rating"><span class="stars">★★★</span><span style="color:var(--muted)">★★</span> <span>3.0</span></div>
+        <button class="movie-btn">BOOK NOW</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="showtimes-section" style="display:none;">
+    <div class="showtimes-container">
+      <h3>SELECT A SHOWTIME FOR: <span class="text-gold" id="selected-movie-name"></span></h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px;">All times displayed in standard binary notation. Left column = hours, right column = minutes. Time zone not specified.</p>
+      <div class="showtime-grid" id="showtime-grid">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint" id="scroll-hint-movies">👇 Select a movie to see showtimes</div>
+</div>
+
+<!-- ===== PAGE: SEATS ===== -->
+<div class="page" id="page-seats">
+  <button class="back-btn" onclick="showPage('movies')">← Back to Movies</button>
+  <div class="page-header" style="margin-top:16px;">
+    <h2>SELECT YOUR <span class="text-gold">SEAT</span></h2>
+    <p id="seat-page-movie-name">Choosing seats for: <span class="text-gold"></span></p>
+  </div>
+
+  <div class="seats-container">
+    <div class="upside-down-note">
+      🙃 <strong>PRO TIP:</strong> Our seat map is displayed in "immersive orientation" — exactly as the screen appears when you're hanging from the ceiling. Row A is closest to the screen! (It's at the bottom. The bottom is the top. You'll figure it out.)
+    </div>
+
+    <div class="best-seats-section">
+      <h3>🌟 RECOMMENDED FOR YOU</h3>
+      <p class="subtitle">Our AI has analysed your browsing history, star sign, and sandwich preferences to recommend these premium seats:</p>
+      <div class="recommended-seat" onclick="autoSelectSeat('G4')">
+        <div class="rec-seat-icon">🏛️</div>
+        <div>
+          <div class="rec-seat-name">Seat G4 — "The Stonehenge"</div>
+          <div class="rec-seat-desc">Nestled directly behind Load-Bearing Pillar C. Perfect for those who enjoy film as an audio-only experience.</div>
+        </div>
+        <div class="rec-seat-badge">Best Value</div>
+      </div>
+      <div class="recommended-seat" onclick="autoSelectSeat('A1')">
+        <div class="rec-seat-icon">📐</div>
+        <div>
+          <div class="rec-seat-name">Seat A1 — "The Neck Destroyer"</div>
+          <div class="rec-seat-desc">Front-row far-left corner. 97° viewing angle. Chiropractor not included.</div>
+        </div>
+        <div class="rec-seat-badge">Hot Pick</div>
+      </div>
+      <div class="recommended-seat" onclick="autoSelectSeat('D8')">
+        <div class="rec-seat-icon">🚪</div>
+        <div>
+          <div class="rec-seat-name">Seat D8 — "The Draught"</div>
+          <div class="rec-seat-desc">Adjacent to fire exit. Door opens every 7 minutes. Brings a refreshing breeze and a rectangle of daylight during key plot moments.</div>
+        </div>
+        <div class="rec-seat-badge">Premium</div>
+      </div>
+    </div>
+
+    <div class="seat-map-wrapper">
+      <div class="screen-label">🎬 SCREEN (THIS END — OR THE OTHER END — SEE ABOVE)</div>
+      <div class="seat-map" id="seat-map">
+        <!-- Generated by JS -->
+      </div>
+      <div style="display:flex;gap:20px;justify-content:center;margin-top:24px;flex-wrap:wrap;transform:rotate(180deg)">
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><div style="width:24px;height:20px;background:var(--surface);border:1px solid var(--border);border-radius:4px;"></div> Available</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><div style="width:24px;height:20px;background:var(--gold);border-radius:4px;"></div> Selected</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><div style="width:24px;height:20px;background:var(--border);border-radius:4px;opacity:0.5;"></div> Taken</div>
+        <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--text2)"><div style="width:24px;height:20px;background:rgba(230,57,70,0.2);border:1px solid var(--red);border-radius:4px;"></div> Structural Pillar</div>
+      </div>
+    </div>
+
+    <div id="selected-seats-display" style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;margin-bottom:20px;display:none;">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:6px;">YOUR SELECTION</div>
+      <div id="selected-seats-text" style="font-family:'Courier Prime',monospace;font-size:16px;color:var(--gold);font-weight:700;"></div>
+    </div>
+
+    <button class="proceed-btn" onclick="proceedToPricing()">PROCEED TO PAYMENT (AND FEES) →</button>
+  </div>
+</div>
+
+<!-- ===== PAGE: PRICING ===== -->
+<div class="page" id="page-pricing">
+  <button class="back-btn" onclick="showPage('seats')">← Back to Seat Selection</button>
+  <div class="page-header" style="margin-top:16px;">
+    <h2>PRICING &amp; <span class="text-gold">CHECKOUT</span></h2>
+    <p>A transparent breakdown of every single charge. We're legally obligated to show these, but not to feel guilty about them.</p>
+  </div>
+
+  <div class="pricing-container">
+    <div id="checkout-steps-bar"></div>
+    <div id="checkout-content"></div>
+  </div>
+</div>
+
+<!-- ===== PAGE: CONFIRMATION ===== -->
+<div class="page" id="page-confirmation">
+  <div class="confirmation-container">
+    <div class="confirm-icon">🎉</div>
+    <div class="confirm-title">YOU DID IT</div>
+    <p class="confirm-text">
+      Against all odds, against all reason, through 17 confirmation steps and 47 fees, you have <strong>successfully booked tickets</strong> at CinemaFrustro™. We are genuinely impressed. Most people give up at step 4.
+    </p>
+
+    <div class="email-warning">
+      <div class="warning-title">📧 Regarding Your Confirmation Email</div>
+      <p>Your confirmation email is being prepared by our dedicated team of server hamsters. Based on current queue times, it will arrive <strong>approximately 2–4 hours after your movie ends</strong>. We recommend screenshotting this page, printing it on vellum parchment, and having it notarised.</p>
+      <p style="margin-top:8px;">If you don't receive it within 72 hours, please don't contact us. We're very busy.</p>
+    </div>
+
+    <div class="confirm-box">
+      <h4>BOOKING SUMMARY</h4>
+      <div class="confirm-detail"><span class="label">Film</span><span class="value" id="conf-movie">—</span></div>
+      <div class="confirm-detail"><span class="label">Showtime</span><span class="value text-gold" id="conf-time">—</span></div>
+      <div class="confirm-detail"><span class="label">Seat(s)</span><span class="value" id="conf-seats">—</span></div>
+      <div class="confirm-detail"><span class="label">Base Ticket Price</span><span class="value text-green">£12.00</span></div>
+      <div class="confirm-detail"><span class="label">Total Fees (47 items)</span><span class="value text-red">£77.47</span></div>
+      <div class="confirm-detail" style="font-size:16px;font-weight:700;">
+        <span class="label text-gold">TOTAL PAID</span>
+        <span class="value text-gold" style="font-family:'Courier Prime',monospace;">£89.47</span>
+      </div>
+    </div>
+
+    <div class="rating-section">
+      <h4>How was your booking experience?</h4>
+      <div class="stars-rating" id="rating-stars" onclick="handleRating(event)">☆☆☆☆☆</div>
+      <p id="rating-response" style="font-size:13px;color:var(--text2);margin-top:10px;"></p>
+    </div>
+
+    <button class="confirm-btn" onclick="showPage('home')">← BOOK ANOTHER DISAPPOINTMENT</button>
+    <p style="font-size:12px;color:var(--muted);margin-top:16px;text-align:center;">CinemaFrustro™ — "We're so sorry. Not really."</p>
+  </div>
+</div>
+
+<script>
+// ========== STATE ==========
+const state = {
+  movie: '',
+  showtime: '',
+  showtimeDecimal: '',
+  selectedSeats: new Set(),
+  checkoutStep: 1,
+  totalCheckoutSteps: 6
+};
+
+// ========== PAGE NAVIGATION ==========
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+// ========== TOAST ==========
+function showToast(title, body, duration = 3500) {
+  const t = document.getElementById('toast');
+  document.getElementById('toast-title').textContent = title;
+  document.getElementById('toast-body').textContent = body;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ========== POPUP ==========
+const popupData = {
+  login: {
+    title: 'SIGN IN',
+    content: `
+      <p>Sign in to access your saved payment methods, booking history, and the ability to complain directly to us (feature coming Q3 2027).</p>
+      <div class="progress-bar-fake"><div class="fill"></div></div>
+      <div class="progress-label">Searching for your account... (78% complete. Has been 78% for a while.)</div>
+      <br>
+      <button class="popup-btn" onclick="closePopup()">CONTINUE AS GUEST (RECOMMENDED)</button>
+      <button class="popup-btn secondary" onclick="closePopup()">Still waiting to sign in...</button>
+    `
+  },
+  snack: {
+    title: '🍿 IMPORTANT SNACK SURVEY',
+    content: `
+      <p>Before we can process your payment, we need to know your snacking preferences for <strong>insurance purposes</strong>.</p>
+      <p>Which best describes you?</p>
+      <button class="popup-btn" onclick="closePopup(); showToast('Noted', 'Nachos data saved to your profile.')">🌮 Nachos Person</button>
+      <button class="popup-btn secondary" style="background:var(--card);color:var(--text);" onclick="closePopup(); showToast('Interesting.', 'Sweet popcorn preference logged.')">🍿 Popcorn (Sweet)</button>
+      <button class="popup-btn secondary" style="background:var(--card);color:var(--text);margin-top:6px;" onclick="closePopup(); showToast('Bold choice.', 'Smuggled sandwich noted.')">🥪 I bring my own sandwich</button>
+    `
+  },
+  pillar: {
+    title: '🏛️ STRUCTURAL FEATURE SELECTED!',
+    content: `
+      <p>You've selected <strong>Seat G4 — The Stonehenge</strong>. This seat is adjacent to Load-Bearing Pillar C.</p>
+      <p>A <strong>Pillar Proximity Surcharge</strong> of £3.00 has been added to your order. This fee helps maintain the pillar.</p>
+      <button class="popup-btn" onclick="closePopup()">ACCEPT PILLAR FEE</button>
+      <button class="popup-btn secondary" onclick="closePopup()">Actually, remove this seat</button>
+    `
+  },
+  cookie: {
+    title: '🍪 COOKIE PREFERENCES',
+    content: `
+      <p>We use cookies. Lots of them. Some cookies are for analytics. Some are for marketing. Some are just because we enjoy baking.</p>
+      <p>By clicking <em>Accept All</em>, you agree to share your location, browsing history, blood type, and secret ambitions with our <strong>847 data partners</strong>.</p>
+      <button class="popup-btn" onclick="closePopup()">ACCEPT ALL (EASIER)</button>
+      <button class="popup-btn secondary" onclick="showToast('Ha!', 'That button does nothing. Accept all cookies.'); ">Manage Preferences (Broken)</button>
+    `
+  }
+};
+
+function showPopup(type) {
+  const d = popupData[type];
+  if (!d) return;
+  document.getElementById('popup-box').innerHTML = `
+    <h3>${d.title}</h3>
+    ${d.content}
+  `;
+  document.getElementById('popup').classList.add('visible');
+}
+function closePopup() {
+  document.getElementById('popup').classList.remove('visible');
+}
+document.getElementById('popup').addEventListener('click', function(e) {
+  if (e.target === this) closePopup();
+});
+
+// ========== MOVIES / SHOWTIMES ==========
+const binaryTimes = [
+  { binary: '00110 01100', decimal: '06:12 AM', label: 'Early Bird Suffering' },
+  { binary: '01001 00000', decimal: '09:00 AM', label: 'Weekend Warrior' },
+  { binary: '01011 11110', decimal: '11:30 AM', label: 'Brunch Clash' },
+  { binary: '01101 00000', decimal: '01:00 PM', label: 'Peak Lunch Regret' },
+  { binary: '01111 11010', decimal: '03:26 PM', label: 'Prime Time (Allegedly)' },
+  { binary: '10001 00110', decimal: '05:30 PM', label: 'Rush Hour Special' },
+  { binary: '10100 10000', decimal: '08:16 PM', label: 'Main Screening' },
+  { binary: '10111 00000', decimal: '11:00 PM', label: 'Midnight Madness' },
+];
+
+function selectMovie(name) {
+  state.movie = name;
+  document.getElementById('selected-movie-name').textContent = name;
+  document.getElementById('showtimes-section').style.display = 'block';
+  document.getElementById('scroll-hint-movies').style.display = 'none';
+
+  const grid = document.getElementById('showtime-grid');
+  grid.innerHTML = '';
+  binaryTimes.forEach((t, i) => {
+    const div = document.createElement('div');
+    div.className = 'showtime-slot';
+    div.innerHTML = `<div class="binary-time">${t.binary}</div><div class="binary-hint">${t.label}</div>`;
+    div.onclick = () => {
+      document.querySelectorAll('.showtime-slot').forEach(s => s.classList.remove('selected'));
+      div.classList.add('selected');
+      state.showtime = t.binary;
+      state.showtimeDecimal = t.decimal;
+      setTimeout(() => {
+        showPage('seats');
+        initSeats();
+        document.getElementById('seat-page-movie-name').innerHTML = `Choosing seats for: <span class="text-gold">${name}</span> @ <span class="text-gold">${t.binary}</span> <span style="color:var(--muted);font-size:12px;">(${t.decimal})</span>`;
+        setTimeout(() => showPopup('cookie'), 800);
+      }, 400);
+    };
+    grid.appendChild(div);
+  });
+
+  document.getElementById('showtimes-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ========== SEATS ==========
+const rows = ['H','G','F','E','D','C','B','A'];
+const cols = 10;
+const pillarSeats = new Set(['G4','D6','B3']);
+const occupiedSeats = new Set(['H1','H2','H8','H9','G3','G7','F2','F5','F9','E4','E7','D3','D9','C2','C6','B8','A1','A5']);
+
+function initSeats() {
+  const map = document.getElementById('seat-map');
+  map.innerHTML = '';
+  state.selectedSeats.clear();
+  updateSelectedDisplay();
+
+  rows.forEach(row => {
+    const rowDiv = document.createElement('div');
+    rowDiv.className = 'seat-row';
+    const labelL = document.createElement('div');
+    labelL.className = 'row-label';
+    labelL.textContent = row;
+    rowDiv.appendChild(labelL);
+
+    for (let c = 1; c <= cols; c++) {
+      const id = row + c;
+      const seat = document.createElement('div');
+      seat.className = 'seat';
+      seat.dataset.id = id;
+
+      if (pillarSeats.has(id)) {
+        seat.classList.add('pillar');
+        seat.title = 'Load-bearing pillar. Structural. Cannot be removed.';
+      } else if (occupiedSeats.has(id)) {
+        seat.classList.add('occupied');
+      } else {
+        seat.onclick = () => toggleSeat(seat, id);
+      }
+      rowDiv.appendChild(seat);
+    }
+
+    const labelR = document.createElement('div');
+    labelR.className = 'row-label';
+    labelR.textContent = row;
+    rowDiv.appendChild(labelR);
+    map.appendChild(rowDiv);
+  });
+}
+
+function toggleSeat(el, id) {
+  if (state.selectedSeats.has(id)) {
+    state.selectedSeats.delete(id);
+    el.classList.remove('selected');
+  } else {
+    if (state.selectedSeats.size >= 6) {
+      showToast('Seat Limit', 'Maximum 6 seats. Consider inviting fewer friends.');
+      return;
+    }
+    state.selectedSeats.add(id);
+    el.classList.add('selected');
+    if (pillarSeats.has(id)) showPopup('pillar');
+  }
+  updateSelectedDisplay();
+}
+
+function autoSelectSeat(id) {
+  showPage('seats');
+  setTimeout(() => {
+    const el = document.querySelector(`[data-id="${id}"]`);
+    if (el && !el.classList.contains('occupied')) {
+      el.classList.add('selected');
+      state.selectedSeats.add(id);
+      updateSelectedDisplay();
+      if (id === 'G4') showPopup('pillar');
+    }
+  }, 300);
+}
+
+function updateSelectedDisplay() {
+  const disp = document.getElementById('selected-seats-display');
+  const text = document.getElementById('selected-seats-text');
+  if (state.selectedSeats.size > 0) {
+    disp.style.display = 'block';
+    text.textContent = Array.from(state.selectedSeats).sort().join('  ·  ');
+  } else {
+    disp.style.display = 'none';
+  }
+}
+
+function proceedToPricing() {
+  if (state.selectedSeats.size === 0) {
+    showToast('No Seats Selected', 'Please select at least one seat to be miserable in.');
+    return;
+  }
+  state.checkoutStep = 1;
+  showPage('pricing');
+  renderPricingPage();
+}
+
+// ========== PRICING / CHECKOUT ==========
+const fees = [
+  { name: 'Base Ticket Price', amount: 12.00, base: true },
+  { name: '① Booking Convenience Fee', amount: 2.50 },
+  { name: '② Convenience Fee Processing Charge', amount: 1.20 },
+  { name: '③ Digital Delivery Infrastructure Tax', amount: 0.85 },
+  { name: '④ Seat Reservation Confirmation Levy', amount: 1.50 },
+  { name: '⑤ Seat Reservation Re-Confirmation Surcharge', amount: 0.75 },
+  { name: '⑥ Third-Party Payment Gateway Usage Fee', amount: 1.10 },
+  { name: '⑦ Third-Party Payment Gateway Connectivity Surcharge', amount: 0.65 },
+  { name: '⑧ Screen Maintenance Contribution', amount: 0.40 },
+  { name: '⑨ Projector Bulb Depreciation Offset', amount: 0.30 },
+  { name: '⑩ Popcorn Aroma Ambient Experience Fee', amount: 0.55 },
+  { name: '⑪ Climate-Controlled Venue Premium', amount: 0.80 },
+  { name: '⑫ Darkness Facilitation Charge', amount: 0.45 },
+  { name: '⑬ Audio Engineering Surcharge', amount: 0.90 },
+  { name: '⑭ Dolby Awareness Fee (non-Dolby screens included)', amount: 1.20 },
+  { name: '⑮ Pixel Count Verification Tax', amount: 0.35 },
+  { name: '⑯ E-Ticket Generation & Rendering Fee', amount: 0.60 },
+  { name: '⑰ PDF Creation Processing Charge', amount: 0.25 },
+  { name: '⑱ Email Sending Infrastructure Levy', amount: 0.40 },
+  { name: '⑲ Email Receiving Facilitation Charge', amount: 0.40 },
+  { name: '⑳ Queue Management System Maintenance', amount: 0.55 },
+  { name: '㉑ Seat Number Assignment Algorithm Fee', amount: 0.70 },
+  { name: '㉒ Row Letter Allocation Processing Charge', amount: 0.30 },
+  { name: '㉓ Server Hamster Welfare Contribution', amount: 1.00 },
+  { name: '㉔ Loading Bar Animation Rendering Tax', amount: 0.20 },
+  { name: '㉕ Cookie Consent Pop-Up Infrastructure Fee', amount: 0.45 },
+  { name: '㉖ Terms & Conditions Hosting Surcharge', amount: 0.30 },
+  { name: '㉗ Website Uptime Assurance Levy (We tried)', amount: 0.55 },
+  { name: '㉘ Card Payment Security Tokenisation Charge', amount: 0.85 },
+  { name: '㉙ CVV Verification Processing Fee', amount: 0.40 },
+  { name: '㉚ Expiry Date Validation Surcharge', amount: 0.25 },
+  { name: '㉛ Anti-Fraud Detection Awareness Tax', amount: 0.60 },
+  { name: '㉜ Refund Prevention Infrastructure Levy', amount: 0.50 },
+  { name: '㉝ Non-Refundable Fee Notification Charge', amount: 0.35 },
+  { name: '㉞ Dynamic Pricing Algorithm Maintenance', amount: 0.75 },
+  { name: '㉟ Price Display Accuracy Audit Surcharge', amount: 0.40 },
+  { name: '㊱ Regulatory Compliance Administration Fee', amount: 0.90 },
+  { name: '㊲ GDPR Compliance Processing Charge', amount: 0.45 },
+  { name: '㊳ Cookie Deletion Right Facilitation Levy', amount: 0.30 },
+  { name: '㊴ Patron Identification Verification Tax', amount: 0.55 },
+  { name: '㊵ Age Rating Advisory Display Fee', amount: 0.25 },
+  { name: '㊶ Showtime Accuracy Disclaimer Surcharge', amount: 0.40 },
+  { name: '㊷ Trailer Preview Infrastructure Charge', amount: 0.60 },
+  { name: '㊸ Intermission Elimination Processing Fee', amount: 0.35 },
+  { name: '㊹ Post-Credits Scene Spoiler Prevention Levy', amount: 0.45 },
+  { name: '㊺ Booking Summary Page Rendering Tax', amount: 0.30 },
+  { name: '㊻ Fee Itemisation Display Service Charge', amount: 0.55 },
+  { name: '㊼ This Fee\'s Existence Administrative Surcharge', amount: 0.75 },
+];
+
+const checkoutStepTitles = [
+  'Review Fees',
+  'Personal Details',
+  'Payment Info',
+  'Confirm You\'re Human',
+  'Final Confirmation',
+  'Confirm Your Confirmation'
+];
+
+function renderPricingPage() {
+  renderStepsBar();
+  renderCheckoutStep();
+}
+
+function renderStepsBar() {
+  const bar = document.getElementById('checkout-steps-bar');
+  let html = '<div class="checkout-steps">';
+  for (let i = 1; i <= state.totalCheckoutSteps; i++) {
+    html += `<div class="step-item">
+      <div class="step-wrapper">
+        <div class="step-circle ${i < state.checkoutStep ? 'done' : i === state.checkoutStep ? 'active' : ''}">${i < state.checkoutStep ? '✓' : i}</div>
+        <div class="step-label">${checkoutStepTitles[i-1]}</div>
+      </div>
+      ${i < state.totalCheckoutSteps ? '<div class="step-connector"></div>' : ''}
+    </div>`;
+  }
+  html += '</div>';
+  bar.innerHTML = html;
+}
+
+function renderCheckoutStep() {
+  const content = document.getElementById('checkout-content');
+  const s = state.checkoutStep;
+
+  if (s === 1) {
+    const totalFees = fees.slice(1).reduce((a, f) => a + f.amount, 0);
+    const grand = fees[0].amount + totalFees;
+    let rows = '';
+    fees.forEach((f, i) => {
+      const cls = i === 0 ? 'base-price' : '';
+      rows += `<div class="price-row ${cls}">
+        <span class="fee-name">${f.name}</span>
+        <span class="fee-amount">£${f.amount.toFixed(2)}</span>
+      </div>`;
+    });
+    content.innerHTML = `
+      <div class="loading-bar-section">
+        <p>⏳ Calculating your fees... <span style="color:var(--muted);font-size:11px;">(This is real. We are genuinely calculating them. There are 47.)</span></p>
+        <div class="loading-bar"><div class="loading-fill"></div></div>
+      </div>
+      <div class="price-summary">
+        <div class="price-header"><h3>FULL PRICE BREAKDOWN</h3><span style="font-size:12px;color:var(--muted);">${fees.length} line items</span></div>
+        ${rows}
+        <div class="price-row subtotal">
+          <span class="fee-name" style="color:var(--text2)">Total Fees (47 items)</span>
+          <span class="fee-amount text-red">£${totalFees.toFixed(2)}</span>
+        </div>
+        <div class="price-row total">
+          <span class="fee-name">GRAND TOTAL</span>
+          <span class="fee-amount">£${grand.toFixed(2)}</span>
+        </div>
+      </div>
+      <button class="confirm-btn" onclick="nextCheckoutStep()">PROCEED TO STEP 2 OF ${state.totalCheckoutSteps} →</button>
+      <p style="font-size:11px;color:var(--muted);text-align:center;margin-top:12px;">* All fees are non-refundable. The base ticket price is also non-refundable. Everything is non-refundable.</p>
+    `;
+    setTimeout(() => showPopup('snack'), 1200);
+  } else if (s === 2) {
+    content.innerHTML = `
+      <div class="checkout-form">
+        <h3>STEP 2: YOUR DETAILS</h3>
+        <p style="font-size:13px;color:var(--muted);margin-bottom:20px;">Required fields are marked with *. Optional fields are also required.</p>
+        <div class="form-field"><label>Full Legal Name *</label><input type="text" placeholder="As it appears on your birth certificate"></div>
+        <div class="form-row">
+          <div class="form-field"><label>Date of Birth *</label><input type="text" placeholder="DD/MM/YYYY"></div>
+          <div class="form-field"><label>Star Sign *</label><select><option>Select...</option><option>Aries</option><option>Taurus</option><option>Other</option></select></div>
+        </div>
+        <div class="form-field"><label>Email Address *</label><input type="email" placeholder="where your confirmation will NOT arrive on time"></div>
+        <div class="form-field"><label>Email Address (again) *</label><input type="email" placeholder="Same email, again, because you definitely mistyped it"></div>
+        <div class="form-field"><label>Email Address (one more time, for luck) *</label><input type="email" placeholder="We're just checking. Third time's the charm."></div>
+        <div class="form-field"><label>Preferred Popcorn Flavour *</label><select><option>Select...</option><option>Sweet</option><option>Salted</option><option>Sweet & Salted</option><option>Neither (lying)</option></select></div>
+        <div class="form-field"><label>How did you hear about us?</label><input type="text" placeholder="Against my will / Misclicked / Trapped here somehow"></div>
+      </div>
+      <button class="confirm-btn" onclick="nextCheckoutStep()">CONTINUE TO STEP 3 →</button>
+    `;
+  } else if (s === 3) {
+    content.innerHTML = `
+      <div class="checkout-form">
+        <h3>STEP 3: PAYMENT INFORMATION</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">We accept all major cards, PayPal, Apple Pay, Google Pay, Bitcoin, Ethereum, Dogecoin, cheque, postal order, IOUs, and Nectar points (min. 4,000,000).</p>
+        <div class="form-field"><label>Card Number *</label><input type="text" placeholder="1234 5678 9012 3456" maxlength="19"></div>
+        <div class="form-row">
+          <div class="form-field"><label>Expiry Date *</label><input type="text" placeholder="MM/YY"></div>
+          <div class="form-field"><label>CVV *</label><input type="text" placeholder="(we'll ask again later)" maxlength="4"></div>
+        </div>
+        <div class="form-field"><label>Cardholder Name *</label><input type="text" placeholder="Name on card (must match your star sign)"></div>
+        <div class="form-field"><label>Billing Postcode *</label><input type="text" placeholder="For fraud prevention (and targeted ads)"></div>
+        <div style="background:rgba(245,200,66,0.08);border:1px solid rgba(245,200,66,0.2);border-radius:8px;padding:14px;margin-bottom:16px;">
+          <p style="font-size:12px;color:var(--gold);">🔒 Your payment is secured with <strong>128-bit encryption</strong>, a padlock emoji, and our team's best intentions.</p>
+        </div>
+        <div style="background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.2);border-radius:8px;padding:14px;">
+          <p style="font-size:12px;color:var(--red);">⚠️ Payment processing may take 3–5 minutes. Do not close this tab, refresh the page, blink, or think about other things.</p>
+        </div>
+      </div>
+      <button class="confirm-btn" onclick="nextCheckoutStep()">SUBMIT PAYMENT (STEP 4 OF 6 COMING UP) →</button>
+    `;
+  } else if (s === 4) {
+    content.innerHTML = `
+      <div class="checkout-form" style="text-align:center;">
+        <h3>STEP 4: ARE YOU HUMAN?</h3>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:24px;">Before we proceed, we need to verify you are not a robot. This step is strictly necessary for your security.</p>
+        <div style="font-size:72px;margin:24px 0;">🤖</div>
+        <p style="font-size:15px;margin-bottom:20px;">Please confirm: <strong>Are you a human?</strong></p>
+        <div style="display:flex;gap:12px;flex-direction:column;">
+          <button class="confirm-btn" onclick="nextCheckoutStep()">YES, I AM A HUMAN ✓</button>
+          <button class="popup-btn secondary" style="padding:14px;font-size:14px;" onclick="showToast('Suspicious.', 'Are you sure? You hesitated.')">No</button>
+          <button class="popup-btn secondary" style="padding:14px;font-size:14px;" onclick="showToast('Invalid.', 'That is not an acceptable answer.')">Uncertain</button>
+        </div>
+        <p style="font-size:11px;color:var(--muted);margin-top:16px;">Note: Selecting "No" will not cancel your booking or your fees.</p>
+      </div>
+    `;
+  } else if (s === 5) {
+    const seats = Array.from(state.selectedSeats).sort().join(', ');
+    content.innerHTML = `
+      <div class="checkout-form">
+        <h3>STEP 5: FINAL CONFIRMATION</h3>
+        <p style="font-size:13px;color:var(--text2);margin-bottom:20px;">Please review your booking one last time. This is your last chance to — just kidding, nothing is refundable.</p>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:20px;margin-bottom:20px;">
+          <div class="confirm-detail"><span class="label">Film</span><span class="value">${state.movie}</span></div>
+          <div class="confirm-detail"><span class="label">Showtime</span><span class="value text-gold mono">${state.showtime}</span></div>
+          <div class="confirm-detail"><span class="label">Seats</span><span class="value">${seats || 'None selected'}</span></div>
+          <div class="confirm-detail"><span class="label">Total</span><span class="value text-gold">£89.47</span></div>
+        </div>
+        <div style="background:rgba(230,57,70,0.08);border:1px solid rgba(230,57,70,0.2);border-radius:8px;padding:14px;margin-bottom:20px;">
+          <p style="font-size:13px;color:var(--red);">⚠️ By confirming, you acknowledge that: (1) all fees are final, (2) your seat may not face the screen at a comfortable angle, (3) the person in front of you will be very tall.</p>
+        </div>
+        <div class="form-field">
+          <label>Type "I ACCEPT MY FATE" to confirm *</label>
+          <input type="text" id="fate-input" placeholder="I ACCEPT MY FATE">
+        </div>
+      </div>
+      <button class="confirm-btn" onclick="checkFateInput()">CONFIRM BOOKING →</button>
+    `;
+  } else if (s === 6) {
+    content.innerHTML = `
+      <div class="checkout-form" style="text-align:center;">
+        <h3>STEP 6: CONFIRM YOUR CONFIRMATION</h3>
+        <p style="font-size:14px;color:var(--text2);margin-bottom:24px;">You've confirmed. But have you <em>really</em> confirmed? We need you to confirm that you've confirmed your confirmation.</p>
+        <div style="font-size:64px;margin:20px 0;">🤔</div>
+        <p style="font-size:15px;margin-bottom:24px;">You confirmed at <strong style="color:var(--gold);" id="confirm-time-display"></strong>. Is this correct?</p>
+        <button class="confirm-btn" onclick="finalBook()" style="margin-bottom:12px;">YES, THIS IS MY FINAL ANSWER</button>
+        <button class="popup-btn secondary" style="padding:14px;font-size:14px;" onclick="showToast('We thought so.', 'Please proceed.')">Actually I\'d like to go back 5 steps</button>
+        <p style="font-size:11px;color:var(--muted);margin-top:16px;">This is step 6 of 6. There is no step 7. (There is a step 7.)</p>
+      </div>
+    `;
+    document.getElementById('confirm-time-display').textContent = new Date().toLocaleTimeString();
+  }
+}
+
+function nextCheckoutStep() {
+  state.checkoutStep++;
+  renderStepsBar();
+  renderCheckoutStep();
+  window.scrollTo(0, 0);
+  showToast(`Step ${state.checkoutStep} of ${state.totalCheckoutSteps}`, checkoutStepTitles[state.checkoutStep - 1]);
+}
+
+function checkFateInput() {
+  const val = document.getElementById('fate-input')?.value?.trim().toUpperCase();
+  if (val === 'I ACCEPT MY FATE') {
+    nextCheckoutStep();
+  } else {
+    showToast('Invalid Entry', 'You must type exactly: I ACCEPT MY FATE');
+  }
+}
+
+function finalBook() {
+  const seats = Array.from(state.selectedSeats).sort().join(', ');
+  document.getElementById('conf-movie').textContent = state.movie || 'Unknown Film';
+  document.getElementById('conf-time').textContent = `${state.showtime} (${state.showtimeDecimal})`;
+  document.getElementById('conf-seats').textContent = seats || 'Somewhere in there';
+  showPage('confirmation');
+  showToast('🎉 Booking Complete!', 'Your email will arrive... eventually.');
+}
+
+// ========== RATING ==========
+const ratingResponses = [
+  '',
+  '😤 One star. Truly one star.', 
+  '😒 Two stars. We\'ve added a "Disappointment Recovery Fee" of £0.50.',
+  '😐 Three stars. Indifference acknowledged. You\'ve been added to our newsletter.',
+  '😊 Four stars?! Our lawyers are reviewing this.',
+  '🤩 Five stars! ERROR: This input is not supported. Please select 1–4 stars.'
+];
+
+function handleRating(e) {
+  const stars = document.getElementById('rating-stars');
+  const bounds = stars.getBoundingClientRect();
+  const starWidth = bounds.width / 5;
+  const clickX = e.clientX - bounds.left;
+  const rating = Math.min(5, Math.max(1, Math.ceil(clickX / starWidth)));
+  stars.textContent = '★'.repeat(rating) + '☆'.repeat(5 - rating);
+  document.getElementById('rating-response').textContent = ratingResponses[rating];
+}
+
+// ========== INIT ==========
+window.onload = () => {
+  setTimeout(() => showPopup('cookie'), 1000);
+};
+</script>
+</body>
+</html>
